@@ -1,0 +1,213 @@
+// Write a C program to design a Singly Linked List and perform Insertion at end,
+// Insertion at Beginning, Deletion at Begin, Deletion at End, Insertion at Index, Deletion
+// at Index, Deletion of entire List and Display Linked List operation on it. You may
+// create a header file of your own to perform the task.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+struct node *insert_at_any(int data, int ele)
+{
+    struct node *newNode;
+    newNode = (struct node *)malloc(sizeof(struct node));
+    newNode->data = data;
+    newNode->next = NULL;
+    if (head == NULL)
+    {
+        head = newNode;
+    }
+    struct node *curr = head;
+    while (curr->next->data != ele && curr->next->next != NULL)
+    {
+        curr = curr->next;
+    }
+    if (curr->next == NULL)
+    {
+        curr->next->next = newNode;
+        newNode->next = NULL;
+    }
+    else
+    {
+        newNode->next = curr->next;
+        curr->next = newNode;
+    }
+}
+
+struct node *insert_at_begin(int data)
+{
+    struct node *temp;
+    temp = (struct node *)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->next = NULL;
+
+    if (head == NULL)
+    {
+        head = temp;
+    }
+    else
+    {
+        temp->next = head;
+        head = temp;
+    }
+    return head;
+}
+
+struct node *insert_at_end(int data)
+{
+    struct node *temp;
+    temp = (struct node *)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->next = NULL;
+
+    if (head == NULL)
+    {
+        head = temp;
+    }
+    else
+    {
+        struct node *temporary = head;
+        while (temporary->next != NULL)
+        {
+            temporary = temporary->next;
+        }
+        temporary->next = temp;
+    }
+    return head;
+}
+
+struct node *delete_at_begin()
+{
+    if (head == NULL)
+        return NULL;
+    struct node *temp = head;
+    head = head->next;
+    free(temp);
+
+    return head;
+}
+
+struct node *delete_at_end()
+{
+    if (head == NULL)
+        return NULL;
+    struct node *temp = head;
+    while (temp->next->next != NULL)
+    {
+        temp = temp->next;
+    }
+    free(temp->next);
+    temp->next = NULL;
+
+    return head;
+}
+
+struct node *delete_at_any(int pos)
+{
+    if (head == NULL)
+        return NULL;
+    struct node *temp = head;
+    struct node *prev = NULL;
+    int i = 1;
+    while (temp->next != NULL && i < pos)
+    {
+        prev = temp;
+        temp = temp->next;
+        i++;
+    }
+    if (temp != NULL)
+    {
+        prev->next = temp->next;
+        free(temp);
+    }
+    else
+    {
+        printf("Data not present\n");
+    }
+    temp->next = NULL;
+
+    return head;
+}
+
+void delete_entire_LL()
+{
+    free(head);
+}
+
+struct node *display()
+{
+    struct node *temporary = head;
+    while (temporary != NULL)
+    {
+        printf("%d\t", temporary->data);
+        temporary = temporary->next;
+    }
+    return head;
+}
+
+int main()
+{
+    int choice, data, pos, after;
+    while (1)
+    {
+        printf("\nMenu:\n");
+        printf("1. Insert at beginning\n");
+        printf("2. Insert at end\n");
+        printf("3. Insert after a specific element\n");
+        printf("4. Delete at beginning\n");
+        printf("5. Delete at end\n");
+        printf("6. Delete at position\n");
+        printf("7. Display list\n");
+        printf("8. Delete entire list\n");
+        printf("9. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+        case 1:
+            printf("Enter data: ");
+            scanf("%d", &data);
+            insert_at_begin(data);
+            break;
+        case 2:
+            printf("Enter data: ");
+            scanf("%d", &data);
+            insert_at_end(data);
+            break;
+        case 3:
+            printf("Enter data and element to insert after: ");
+            scanf("%d %d", &data, &after);
+            insert_at_any(data, after);
+            break;
+        case 4:
+            delete_at_begin();
+            break;
+        case 5:
+            delete_at_end();
+            break;
+        case 6:
+            printf("Enter position: ");
+            scanf("%d", &pos);
+            delete_at_any(pos);
+            break;
+        case 7:
+            display();
+            break;
+        case 8:
+            delete_entire_LL();
+            printf("List has been deleted\n") break;
+        case 9:
+            printf("Exiting...\n");
+            return 0;
+        default:
+            printf("Invalid choice!\n");
+        }
+    }
+}
