@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+    int d1, d2, d3, d4, d5;
+    printf("Enter the dimension 1\n");
+    scanf("%d", &d1);
+    printf("Enter dimension 2\n");
+    scanf("%d", &d2);
+    printf("Enter dimension 3\n");
+    scanf("%d", &d3);
+    printf("Enter dimension 4\n");
+    scanf("%d", &d4);
+    printf("Enter dimension 5\n");
+    scanf("%d", &d5);
+
+    int *****arr = (int *****)malloc(d1 * sizeof(int ****));
+    for (int i = 0; i < d1; i++)
+    {
+        arr[i] = (int ****)malloc(d2 * sizeof(int ***));
+        for (int j = 0; j < d2; j++)
+        {
+            arr[i][j] = (int ***)malloc(d3 * sizeof(int **));
+            for (int k = 0; k < d3; k++)
+            {
+                arr[i][j][k] = (int **)malloc(d4 * sizeof(int *));
+                for (int l = 0; l < d4; l++)
+                {
+                    arr[i][j][k][l] = (int *)malloc(d5 * sizeof(int));
+                }
+            }
+        }
+    }
+
+    int value = 1;
+
+    for (int i = 0; i < d1; i++)
+    {
+        for (int j = 0; j < d2; j++)
+        {
+            for (int k = 0; k < d3; k++)
+            {
+                for (int l = 0; l < d4; l++)
+                {
+                    for (int m = 0; m < d5; m++)
+                    {
+                        arr[i][j][k][l][m] = value++;
+                    }
+                }
+            }
+        }
+    }
+
+    printf("Values in the dynamically allocated 5D array:\n");
+    for (int i = 0; i < d1; i++)
+    {
+        for (int j = 0; j < d2; j++)
+        {
+            for (int k = 0; k < d3; k++)
+            {
+                for (int l = 0; l < d4; l++)
+                {
+                    for (int m = 0; m < d5; m++)
+                    {
+                        printf("arr[%d][%d][%d][%d][%d] = %d\n", i, j, k, l, m, arr[i][j][k][l][m]);
+                    }
+                }
+            }
+        }
+    }
+
+    return 0;
+}
